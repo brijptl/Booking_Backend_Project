@@ -15,7 +15,7 @@ app.use("/api", authRoutes);
 
 // protected route
 app.get("/api/protected", verifyToken, (req: Request, res: Response) => {
-  res.send("You have");
+  res.send("You have access");
 });
 
 // test route
