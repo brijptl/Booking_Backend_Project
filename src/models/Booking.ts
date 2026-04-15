@@ -5,7 +5,10 @@ const bookingSchema = new mongoose.Schema({
   email: String,
   date: String,
   time: String,
-  userId: String // optional (for logged-in user)
+  status: {
+    type: String,
+    default: "pending" 
+  }
 });
 
 const Booking = mongoose.model("Booking", bookingSchema);

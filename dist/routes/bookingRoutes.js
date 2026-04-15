@@ -11,4 +11,9 @@ const router = express_1.default.Router();
 router.post("/booking", bookingController_1.createBooking);
 // user booking (protected)
 router.post("/booking/user", authMiddleware_1.verifyToken, bookingController_1.createUserBooking);
+// admin routes
+router.get("/bookings", bookingController_1.getAllBookings);
+router.put("/booking/approve/:id", bookingController_1.approveBooking);
+router.put("/booking/reject/:id", bookingController_1.rejectBooking);
+router.delete("/booking/:id", bookingController_1.deleteBooking);
 exports.default = router;

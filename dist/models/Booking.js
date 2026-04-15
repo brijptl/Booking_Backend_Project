@@ -9,7 +9,10 @@ const bookingSchema = new mongoose_1.default.Schema({
     email: String,
     date: String,
     time: String,
-    userId: String // optional (for logged-in user)
+    status: {
+        type: String,
+        default: "pending"
+    }
 });
 const Booking = mongoose_1.default.model("Booking", bookingSchema);
 exports.default = Booking;

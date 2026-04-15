@@ -8,23 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = exports.registerUser = void 0;
-const user_1 = __importDefault(require("../models/user"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const authService_1 = require("../services/authService");
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password } = req.body;
     try {
-        const newUser = new user_1.default({
-            name,
-            email,
-            password
-        });
-        yield newUser.save();
-        res.send("User registered successfully");
+        const result = yield (0, authService_1.registerUserService)(req.body);
+        res.send(result.message);
     }
     catch (err) {
         res.send("Error while registering user");
@@ -33,18 +23,9 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.registerUser = registerUser;
 // for login.....
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
     try {
-        const user = yield user_1.default.findOne({ email });
-        if (!user) {
-            return res.send("User not found");
-        }
-        if (user.password !== password) {
-            return res.send("Wrong password");
-        }
-        // JWT token......
-        const token = jsonwebtoken_1.default.sign({ id: user._id }, "secretkey");
-        res.json({ token });
+        const result = yield (0, authService_1.loginUserService)(req.body);
+        res.json(result);
     }
     catch (error) {
         res.send("Error during login");

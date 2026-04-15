@@ -8,54 +8,72 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUserBooking = exports.createBooking = void 0;
-const Booking_1 = __importDefault(require("../models/Booking"));
+exports.deleteBooking = exports.rejectBooking = exports.approveBooking = exports.getAllBookings = exports.createUserBooking = exports.createBooking = void 0;
+const bookingService_1 = require("../services/bookingService");
 // guest booking
 const createBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, date, time } = req.body;
     try {
-        const booking = new Booking_1.default({
-            name,
-            email,
-            date,
-            time
-        });
-        yield booking.save();
-        res.status(200).json({
-            message: "Booking created",
-            data: booking
-        });
+        const result = yield (0, bookingService_1.createBookingService)(req.body);
+        res.status(200).json(result);
     }
     catch (error) {
-        res.status(500).json({
-            message: "Error while creating booking"
-        });
+        res.status(500).json({ message: "Error while creating booking" });
     }
 });
 exports.createBooking = createBooking;
 // user booking (protected)
 const createUserBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { date, time } = req.body;
     try {
-        const booking = new Booking_1.default({
-            userId: req.user.id,
-            date,
-            time
-        });
-        yield booking.save();
-        res.status(200).json({
-            message: "User booking created",
-            data: booking
-        });
+        const result = yield (0, bookingService_1.createUserBookingService)(req.user.id, req.body);
+        res.status(200).json(result);
     }
     catch (error) {
-        res.status(500).json({
-            message: "Error when creating booking"
-        });
+        res.status(500).json({ message: "Error when creating booking" });
     }
 });
 exports.createUserBooking = createUserBooking;
+// get all bookings (admin)
+const getAllBookings = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, bookingService_1.getAllBookingsService)();
+        res.status(200).json(result);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error fetching bookings" });
+    }
+});
+exports.getAllBookings = getAllBookings;
+// approve booking
+const approveBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, bookingService_1.approveBookingService)(req.params.id);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error approving booking" });
+    }
+});
+exports.approveBooking = approveBooking;
+// reject booking
+const rejectBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, bookingService_1.rejectBookingService)(req.params.id);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error rejecting booking" });
+    }
+});
+exports.rejectBooking = rejectBooking;
+// delete booking
+const deleteBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, bookingService_1.deleteBookingService)(req.params.id);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error deleting booking" });
+    }
+});
+exports.deleteBooking = deleteBooking;
