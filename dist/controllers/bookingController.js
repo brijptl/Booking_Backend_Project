@@ -14,10 +14,12 @@ const bookingService_1 = require("../services/bookingService");
 // guest booking
 const createBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("Creating booking:", req.body);
         const result = yield (0, bookingService_1.createBookingService)(req.body);
         res.status(200).json(result);
     }
     catch (error) {
+        console.log("Error creating booking:", error);
         res.status(500).json({ message: "Error while creating booking" });
     }
 });
@@ -25,10 +27,12 @@ exports.createBooking = createBooking;
 // user booking (protected)
 const createUserBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("User booking:", req.user.id, req.body);
         const result = yield (0, bookingService_1.createUserBookingService)(req.user.id, req.body);
         res.status(200).json(result);
     }
     catch (error) {
+        console.log("Error creating user booking:", error);
         res.status(500).json({ message: "Error when creating booking" });
     }
 });
@@ -36,10 +40,12 @@ exports.createUserBooking = createUserBooking;
 // get all bookings (admin)
 const getAllBookings = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("Fetching all bookings");
         const result = yield (0, bookingService_1.getAllBookingsService)();
         res.status(200).json(result);
     }
     catch (error) {
+        console.log("Error fetching bookings:", error);
         res.status(500).json({ message: "Error fetching bookings" });
     }
 });
@@ -47,10 +53,12 @@ exports.getAllBookings = getAllBookings;
 // approve booking
 const approveBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("Approving booking:", req.params.id);
         const result = yield (0, bookingService_1.approveBookingService)(req.params.id);
         res.status(200).json(result);
     }
     catch (error) {
+        console.log("Error approving booking:", error);
         res.status(500).json({ message: "Error approving booking" });
     }
 });
@@ -58,10 +66,12 @@ exports.approveBooking = approveBooking;
 // reject booking
 const rejectBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("Rejecting booking:", req.params.id);
         const result = yield (0, bookingService_1.rejectBookingService)(req.params.id);
         res.status(200).json(result);
     }
     catch (error) {
+        console.log("Error rejecting booking:", error);
         res.status(500).json({ message: "Error rejecting booking" });
     }
 });
@@ -69,10 +79,12 @@ exports.rejectBooking = rejectBooking;
 // delete booking
 const deleteBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("Deleting booking:", req.params.id);
         const result = yield (0, bookingService_1.deleteBookingService)(req.params.id);
         res.status(200).json(result);
     }
     catch (error) {
+        console.log("Error deleting booking:", error);
         res.status(500).json({ message: "Error deleting booking" });
     }
 });

@@ -10,6 +10,11 @@ const bookingRoutes_1 = __importDefault(require("./routes/bookingRoutes"));
 const authMiddleware_1 = require("./middleware/authMiddleware");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+// logging middleware
+app.use((req, res, next) => {
+    console.log(req.method + " " + req.url);
+    next();
+});
 // connect database
 (0, db_1.default)();
 // auth routes
